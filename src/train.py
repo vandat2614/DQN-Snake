@@ -120,7 +120,7 @@ def train(env, model, config, device):
         if config['target_network'] and (episode + 1) % target_update_freq == 0:
             target_network.load_state_dict(model.state_dict())
 
-        print(f"Episode: {episode + 1}, reward {total_reward:.2f}, score {score}")
+        # print(f"Episode: {episode + 1}, reward {total_reward:.2f}, score {score}")
 
         if total_reward > best_reward:
             best_reward = total_reward
