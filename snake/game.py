@@ -19,7 +19,9 @@ class Game:
         dx = abs(head.x - food.x)
         dy = abs(head.y - food.y)
 
-        return math.sqrt(dx ** 2 + dy ** 2)
+        dist = math.sqrt(dx ** 2 + dy ** 2)
+
+        return dist
 
     def update(self):
         if self.state != "RUNNING":

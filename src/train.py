@@ -120,13 +120,15 @@ def train(env, model, config, device):
         if config['target_network'] and (episode + 1) % target_update_freq == 0:
             target_network.load_state_dict(model.state_dict())
 
+        print(f"Episode: {episode + 1}, reward {total_reward:.2f}, score {score}")
+
         if score > best_score:
             best_score = score
             save_path = os.path.join(weights_dir, f"episode_{episode + 1}.pt")
             torch.save(model.state_dict(), save_path)
             
             date_hour = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            log_message = f"{date_hour}: New record: episode {episode + 1}, reward {total_reward}, score {score}"
+            log_message = f"{date_hour}: New record: episode {episode + 1}, reward {total_reward:.2f}, score {score}"
             print(log_message)
             with open(log_path, 'a') as file:
                 file.write(log_message + '\n')
