@@ -47,6 +47,7 @@ class SnakeEnv(gym.Env):
         self.game.update()
 
         if self.game.state == "RUNNING":
+            reward += 0.4
             if self.game.score == prev_score + 1:
                 reward += 1
         else:
