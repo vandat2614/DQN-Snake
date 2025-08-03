@@ -69,7 +69,7 @@ def train(env, model, config, device):
     memory = ExperienceReplay(memory_size)
 
     epsilon = epsilon_max
-    best_score = float('-inf')
+    best_reward = float('-inf')
 
     train_log = []
 
@@ -122,8 +122,8 @@ def train(env, model, config, device):
 
         print(f"Episode: {episode + 1}, reward {total_reward:.2f}, score {score}")
 
-        if score > best_score:
-            best_score = score
+        if total_reward > best_reward:
+            best_reward = total_reward
             save_path = os.path.join(weights_dir, f"episode_{episode + 1}.pt")
             torch.save(model.state_dict(), save_path)
             

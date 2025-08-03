@@ -48,10 +48,13 @@ class Game:
         if self.snake.body[0] in self.snake.body[1:]:
             self.game_over()
 
+    def reset(self):
+        self.state = "RUNNING"
+        self.snake.reset()
+        self.food_position = self.food.generate_random_pos(self.snake.body)
+        self.score = 0
+
     def game_over(self):
+        self.state = "STOPPED"
         if self.sound:
             self.snake.wall_hit_sound.play()
-        self.snake.reset()
-        self.food.position = self.food.generate_random_pos(self.snake.body)
-        self.state = "STOPPED"
-        self.score = 0

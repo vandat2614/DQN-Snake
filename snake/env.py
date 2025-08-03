@@ -34,7 +34,7 @@ class SnakeEnv(gym.Env):
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
-        self.game = Game()
+        self.game.reset()
         return self._get_obs(), {'score' : 0}
 
     def step(self, action):
@@ -50,7 +50,7 @@ class SnakeEnv(gym.Env):
             if self.game.score == prev_score + 1:
                 reward += 1
             else:
-                reward -= 0.1 * self.game.distance_to_food()
+                reward -= 0.1 
         else:
             reward -= 2
 
@@ -109,21 +109,30 @@ class SnakeEnv(gym.Env):
             self.display_initialized = False
 
     def _get_obs(self):
-        self.render()  # vẽ lại lên self.surface
+        # self.render()  # vẽ lại lên self.surface
 
-        # Lấy toàn bộ ảnh RGB từ surface
-        full_array = pygame.surfarray.array3d(self.surface).swapaxes(0, 1)
+        # # Lấy toàn bộ ảnh RGB từ surface
+        # full_array = pygame.surfarray.array3d(self.surface).swapaxes(0, 1)
 
-        # Crop phần board (bỏ OFFSET, bỏ viền, bỏ chữ)
-        left = OFFSET
-        top = OFFSET
-        right = left + cell_size * number_of_cells
-        bottom = top + cell_size * number_of_cells
+        # # Crop phần board (bỏ OFFSET, bỏ viền, bỏ chữ)
+        # left = OFFSET
+        # top = OFFSET
+        # right = left + cell_size * number_of_cells
+        # bottom = top + cell_size * number_of_cells
 
-        obs = full_array[top:bottom, left:right, :]
-        return obs
+        # obs = full_array[top:bottom, left:right, :]
+        # return obs
 
 
+        snake_pos = self.game.snake.body
+        food_pos = self.game.food_position
+
+        obs = np.zeros((number_of_cells, number_of_cells), dtype=np.int32)
+        for pos in snake_pos:
+            if 0 <= pos.x < number_of_cells and 0 <= pos.y < number_of_cells:
+                obs[int(pos.y), int(pos.x)] = 1
+        obs[int(food_pos.x), int(food_pos.y)] = 1
+        return obs.astype(np.uint8)
 
 
     def _draw_obs_surface(self) -> pygame.Surface:
