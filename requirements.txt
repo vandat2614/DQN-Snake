@@ -1,0 +1,5 @@
+pygame
+gymnasium
+opencv-python
+torch
+pyyaml

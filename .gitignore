@@ -1,0 +1,9 @@
+venv/
+runs/
+
+tempCodeRunnerFile.py
+*.pyc
+__pycache__/
+
+
+*.pt
