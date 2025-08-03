@@ -22,7 +22,7 @@ class SnakeEnv(gym.Env):
         self.surface = pygame.Surface((self.window_size, self.window_size))
         self.display_initialized = False
 
-        self.food_image = pygame.image.load(str(ASSETS / "Graphics" / "food.png"))
+        self.food_image = pygame.image.load(str(ASSETS / "graphics" / "food.png"))
 
         self.observation_space = spaces.Box(
             low=0, high=255,

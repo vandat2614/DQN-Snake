@@ -13,8 +13,8 @@ class Snake:
         self.add_segment = False
 
         if sound:
-            self.eat_sound = pygame.mixer.Sound(str(ASSETS / "Sounds" / "eat.mp3"))
-            self.wall_hit_sound = pygame.mixer.Sound(str(ASSETS / "Sounds" / "wall.mp3"))
+            self.eat_sound = pygame.mixer.Sound(str(ASSETS / "sounds" / "eat.mp3"))
+            self.wall_hit_sound = pygame.mixer.Sound(str(ASSETS / "sounds" / "wall.mp3"))
 
     def update(self):
         self.body.insert(0, self.body[0] + self.direction)
