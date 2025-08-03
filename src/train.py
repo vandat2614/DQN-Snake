@@ -94,7 +94,7 @@ def train(env, model, config, device):
             next_obs, reward, terminated, truncated, info = env.step(action)
 
             img_next_state = process_img(next_obs)
-            next_state = torch.cat((state.squeeze(0)[1:, :, :], img_next_state)).unsqueeze(0)
+            next_state = torch.cat((state.squeeze(0)[1:, :, :], img_next_state)).unsqueeze(0).to(device)
 
             memory.push((state, action, reward, next_state, terminated))
 
