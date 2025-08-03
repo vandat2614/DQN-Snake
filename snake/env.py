@@ -50,9 +50,11 @@ class SnakeEnv(gym.Env):
             if self.game.score == prev_score + 1:
                 reward += 1
             else:
-                reward -= 0.1 
+                reward -= 1 
         else:
             reward -= 2
+
+        reward -= self.game.distance_to_food()
 
         terminated = self.game.state == "STOPPED"
         truncated = False

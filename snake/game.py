@@ -20,8 +20,9 @@ class Game:
         dy = abs(head.y - food.y)
 
         dist = math.sqrt(dx ** 2 + dy ** 2)
+        max_dist = math.sqrt((number_of_cells - 1) ** 2 * 2)
 
-        return dist
+        return dist / max_dist
 
     def update(self):
         if self.state != "RUNNING":
