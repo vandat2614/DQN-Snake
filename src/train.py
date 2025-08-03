@@ -81,7 +81,7 @@ def train(env, model, config, device):
         loss = None
 
         img_state = process_img(obs)
-        state = torch.cat((img_state, img_state, img_state, img_state)).unsqueeze(0)
+        state = torch.cat((img_state, img_state, img_state, img_state)).unsqueeze(0).to(device)
 
         while True:
             if random.random() < epsilon:
