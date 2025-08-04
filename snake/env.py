@@ -147,7 +147,7 @@ class SnakeEnv(gym.Env):
         for pos in snake_pos:
             if 0 <= pos.x < number_of_cells and 0 <= pos.y < number_of_cells:
                 obs[int(pos.y), int(pos.x)] = 1
-        obs[int(food_pos.x), int(food_pos.y)] = 1
+        obs[int(food_pos.x), int(food_pos.y)] = 2
         return obs.astype(np.uint8)
 
 
