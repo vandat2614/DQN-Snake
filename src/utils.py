@@ -4,7 +4,7 @@ import numpy as np
 
 def process_img(obs):
 
-    img_state = cv2.resize(obs, (84, 84), interpolation=cv2.INTER_AREA)
+    # img_state = cv2.resize(obs, (84, 84), interpolation=cv2.INTER_AREA)
     img_state = img_state.reshape((84, 84, 1))
 
     img_tensor = img_state.transpose(2, 0, 1).astype(np.float32)
