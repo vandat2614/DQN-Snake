@@ -27,7 +27,7 @@ def setup(config_path : str, weights_path : str = None):
         config['env']['params']['render_mode'] = 'rgb_array'
 
     env = SnakeEnv(**config['env']['params'])
-    input_shape = (4, 84, 84)
+    input_shape = (4, 25, 25)
     output_size = env.action_space.n
 
     model = ConvNeuralNetwork.from_config(config=config['model'],
