@@ -11,6 +11,8 @@ from datetime import datetime
 from .experience_replay import ExperienceReplay
 from .utils import process_img
 
+import numpy as np
+
 def update(model: nn.Module, batch: tuple, optimizer: torch.optim.Optimizer, 
                 criterion: nn.Module, gamma: float, device: torch.device, target_network: nn.Module = None):
     
@@ -72,6 +74,8 @@ def train(env, model, config, device):
     best_reward = float('-inf')
 
     train_log = []
+    scores = []
+    rewards = []
 
     episode_iter = itertools.count() if num_episodes is None else range(num_episodes)
     for episode in episode_iter:
@@ -107,6 +111,8 @@ def train(env, model, config, device):
             
             if terminated or truncated:
                 score = info['score']
+                scores.append(score)
+                rewards.append(total_reward)
                 break
 
         train_log.append({
@@ -122,16 +128,31 @@ def train(env, model, config, device):
 
         # print(f"Episode: {episode + 1}, reward {total_reward:.2f}, score {score}")
 
-        if total_reward > best_reward:
-            best_reward = total_reward
-            save_path = os.path.join(weights_dir, f"episode_{episode + 1}.pt")
-            torch.save(model.state_dict(), save_path)
-            
-            date_hour = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            log_message = f"{date_hour}: New record: episode {episode + 1}, epsilon {epsilon:.2f}, reward {total_reward:.2f}, score {score}"
-            print(log_message)
+        if (episode + 1) % 25 == 0:
+            avg_reward = np.mean(rewards)
+            avg_score = np.mean(scores)
+
+            rewards = []
+            scores = []
+
+            log_msg = f"Episode {episode + 1}, reward {avg_reward:.2f}, score {avg_score:.2f}, eps {epsilon}"
+            print(log_msg)
             with open(log_path, 'a') as file:
-                file.write(log_message + '\n')
+                file.write(log_msg + '\n')
+            torch.save(model.state_dict(), f'{weights_dir}/eps_{episode+1}.pt')
+
+
+
+        # if total_reward > best_reward:
+        #     best_reward = total_reward
+        #     save_path = os.path.join(weights_dir, f"episode_{episode + 1}.pt")
+        #     torch.save(model.state_dict(), save_path)
+            
+        #     date_hour = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        #     log_message = f"{date_hour}: New record: episode {episode + 1}, epsilon {epsilon:.2f}, reward {total_reward:.2f}, score {score}"
+        #     print(log_message)
+        #     with open(log_path, 'a') as file:
+        #         file.write(log_message + '\n')
         torch.save(model.state_dict(), f'{weights_dir}/last.pt')
 
     with open(train_log_path, "w") as file:
