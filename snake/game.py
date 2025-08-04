@@ -14,15 +14,10 @@ class Game:
 
     def distance_to_food(self) -> float:
         head = self.snake.body[0]
-        food = self.food.position
+        food = self.food_position
+        return (head - food).length()  # dùng Euclidean
+        # hoặc: return abs(head.x - food.x) + abs(head.y - food.y)  # Manhattan
 
-        dx = abs(head.x - food.x)
-        dy = abs(head.y - food.y)
-
-        dist = math.sqrt(dx ** 2 + dy ** 2)
-        max_dist = math.sqrt((number_of_cells - 1) ** 2 * 2)
-
-        return dist / max_dist
 
     def update(self):
         if self.state != "RUNNING":
