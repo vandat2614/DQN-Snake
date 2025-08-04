@@ -45,28 +45,28 @@ class SnakeEnv(gym.Env):
         if direction + self.game.snake.direction != Vector2(0, 0):
             self.game.snake.direction = direction
         else:
-            reward -= 1
+            reward -= 0.01
 
         prev_score = self.game.score
         self.game.update()
 
         if self.game.state == "RUNNING":
             if self.game.score == prev_score + 1:
-                reward += 10
+                reward += 1
         else:
-            reward -= 5
+            reward -= 1
 
-        pos = self.game.snake.body[0]
-        if action == 0: # U
-            dis = pos.y
-        elif action == 1: # D
-            dis = number_of_cells - pos.y
-        elif action == 2: # L
-            dis = pos.x
-        else:
-            dis = number_of_cells - pos.x
+        # pos = self.game.snake.body[0]
+        # if action == 0: # U
+        #     dis = pos.y
+        # elif action == 1: # D
+        #     dis = number_of_cells - pos.y
+        # elif action == 2: # L
+        #     dis = pos.x
+        # else:
+        #     dis = number_of_cells - pos.x
 
-        reward += dis        
+        # reward += dis        
 
 
         # reward -= 10 * self.game.distance_to_food()
