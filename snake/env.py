@@ -39,20 +39,19 @@ class SnakeEnv(gym.Env):
 
     def step(self, action):
 
-        reward = 0
-
         direction = self._action_to_direction(action)
         if direction + self.game.snake.direction != Vector2(0, 0):
             self.game.snake.direction = direction
-        else:
-            reward -= 0.01
+        # else:
+        #     reward -= 0.01
 
         prev_score = self.game.score
         self.game.update()
 
         if self.game.state == "RUNNING":
             if self.game.score == prev_score + 1:
-                reward += 1
+                reward = 2
+            else: reward = -0.1
         else:
             reward -= 1
 
