@@ -135,7 +135,7 @@ def train(env, model, config, device):
             rewards = []
             scores = []
 
-            log_msg = f"Episode {episode + 1}, reward {avg_reward:.2f}, score {avg_score:.2f}, eps {epsilon}"
+            log_msg = f"Episode {episode + 1}, reward {avg_reward:.2f}, score {avg_score:.2f}, eps {epsilon:.2f}"
             print(log_msg)
             with open(log_path, 'a') as file:
                 file.write(log_msg + '\n')

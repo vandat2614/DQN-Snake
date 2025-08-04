@@ -38,21 +38,26 @@ class SnakeEnv(gym.Env):
         return self._get_obs(), {'score' : 0}
 
     def step(self, action):
+
+        reward = 0
+
         direction = self._action_to_direction(action)
         if direction + self.game.snake.direction != Vector2(0, 0):
             self.game.snake.direction = direction
-
-        prev_score = self.game.score
-        reward = 0
-        self.game.update()
-
-        if self.game.state == "RUNNING":
-            if self.game.score == prev_score + 1:
-                reward += 10
         else:
             reward -= 2
 
-        reward -= 10 * self.game.distance_to_food()
+        prev_score = self.game.score
+        self.game.update()
+
+        if self.game.state == "RUNNING":
+            reward += 0.5
+            if self.game.score == prev_score + 1:
+                reward += 15
+        else:
+            reward -= 5
+
+        # reward -= 10 * self.game.distance_to_food()
 
         terminated = self.game.state == "STOPPED"
         truncated = False
