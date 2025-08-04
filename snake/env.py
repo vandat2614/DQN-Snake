@@ -35,48 +35,45 @@ class SnakeEnv(gym.Env):
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
         self.game.reset()
-        self.frame_count = 0
         return self._get_obs(), {'score' : 0}
 
     def step(self, action):
-        self.frame_count += 1  # cần khai báo trong reset()
+
         reward = 0
 
         direction = self._action_to_direction(action)
         if direction + self.game.snake.direction != Vector2(0, 0):
             self.game.snake.direction = direction
         else:
-            reward -= 0.01  # đi ngược lại thì phạt nhẹ
+            reward -= 0.01
 
         prev_score = self.game.score
-        prev_dist = self.game.distance_to_food()
-
         self.game.update()
 
-        terminated = self.game.state == "STOPPED"
-
-        # thưởng nếu ăn được mồi
-        if self.game.score == prev_score + 1:
-            reward += 15
-        else:
-            # nếu không ăn thì xét khoảng cách
-            curr_dist = self.game.distance_to_food()
-            if curr_dist < prev_dist:
+        if self.game.state == "RUNNING":
+            if self.game.score == prev_score + 1:
                 reward += 1
-            else:
-                reward -= 1
-
-        # nếu chết thì phạt nặng
-        if terminated:
-            reward = -10
-
-        # phạt nhẹ nếu quá lâu không ăn mồi
-        if self.frame_count > 30 * len(self.game.snake.body):
+        else:
             reward -= 1
 
-        truncated = False
-        return self._get_obs(), reward, terminated, truncated, {'score': self.game.score}
+        # pos = self.game.snake.body[0]
+        # if action == 0: # U
+        #     dis = pos.y
+        # elif action == 1: # D
+        #     dis = number_of_cells - pos.y
+        # elif action == 2: # L
+        #     dis = pos.x
+        # else:
+        #     dis = number_of_cells - pos.x
 
+        # reward += dis        
+
+
+        # reward -= 10 * self.game.distance_to_food()
+
+        terminated = self.game.state == "STOPPED"
+        truncated = False
+        return self._get_obs(), reward, terminated, truncated, {'score' : self.game.score}
 
     def render(self):
         if not self.display_initialized and self.render_mode == "human":
