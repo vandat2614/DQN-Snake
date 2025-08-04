@@ -53,7 +53,7 @@ class SnakeEnv(gym.Env):
                 reward = 2
             else: reward = -0.1
         else:
-            reward -= 1
+            reward = -1
 
         # pos = self.game.snake.body[0]
         # if action == 0: # U
