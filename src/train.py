@@ -128,7 +128,7 @@ def train(env, model, config, device):
             torch.save(model.state_dict(), save_path)
             
             date_hour = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            log_message = f"{date_hour}: New record: episode {episode + 1}, reward {total_reward:.2f}, score {score}"
+            log_message = f"{date_hour}: New record: episode {episode + 1}, epsilon {epsilon:.2f}, reward {total_reward:.2f}, score {score}"
             print(log_message)
             with open(log_path, 'a') as file:
                 file.write(log_message + '\n')
