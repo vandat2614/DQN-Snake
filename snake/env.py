@@ -45,13 +45,13 @@ class SnakeEnv(gym.Env):
         if direction + self.game.snake.direction != Vector2(0, 0):
             self.game.snake.direction = direction
         else:
-            reward -= 2
+            reward -= 3
 
         prev_score = self.game.score
         self.game.update()
 
         if self.game.state == "RUNNING":
-            reward += 0.5
+            reward += 0.1
             if self.game.score == prev_score + 1:
                 reward += 15
         else:

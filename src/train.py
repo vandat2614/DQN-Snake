@@ -128,7 +128,7 @@ def train(env, model, config, device):
 
         # print(f"Episode: {episode + 1}, reward {total_reward:.2f}, score {score}")
 
-        if (episode + 1) % 25 == 0:
+        if (episode + 1) % 100 == 0:
             avg_reward = np.mean(rewards)
             avg_score = np.mean(scores)
 
